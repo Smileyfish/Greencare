@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Notifications from 'expo-notifications';
 import { getPlantById, updatePlant, deletePlant, Plant } from '../services/database';
 import { useNavigation, useRoute } from '@react-navigation/native';
+
+// Helper to schedule next watering notification
+async function scheduleWateringNotification(plantName: string, interval: number) {
+    const nextWatering = new Date();
+    nextWatering.setDate(nextWatering.getDate() + interval);
+
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: "🌱 Erinnerung",
+            body: `${plantName} sollte heute gegossen werden 💧`,
+            sound: true,
+        },
+        trigger: nextWatering, // fires at the calculated date
+    });
+}
 
 const PlantDetailScreen: React.FC = () => {
     const navigation = useNavigation();
@@ -32,7 +48,7 @@ const PlantDetailScreen: React.FC = () => {
         if (!result.canceled) setImageUri(result.assets[0].uri);
     };
 
-    const saveChanges = () => {
+    const saveChanges = async () => {
         if (!name || !wateringInterval) {
             Alert.alert('Fehler', 'Name und Gießintervall sind Pflichtfelder.');
             return;
@@ -47,6 +63,9 @@ const PlantDetailScreen: React.FC = () => {
             updatePlant(plantId, name, location, interval, plant?.lastWatered || new Date().toISOString(), imageUri || '');
             setPlant({ ...plant!, name, location, wateringInterval: interval, imageUri });
             setEditMode(false);
+
+            await scheduleWateringNotification(name, interval);
+
             Alert.alert('Erfolg', 'Pflanze wurde aktualisiert.');
         } catch (error) {
             console.error('Error updating plant:', error);
@@ -68,10 +87,12 @@ const PlantDetailScreen: React.FC = () => {
         ]);
     };
 
-    const waterToday = () => {
+    const waterToday = async () => {
         const today = new Date().toISOString();
         updatePlant(plantId, plant!.name, plant!.location, plant!.wateringInterval, today, plant!.imageUri || '');
         setPlant({ ...plant!, lastWatered: today });
+
+        await scheduleWateringNotification(plant!.name, plant!.wateringInterval);
     };
 
     if (!plant) return <Text>Pflanze nicht gefunden</Text>;
@@ -164,7 +185,7 @@ const styles = StyleSheet.create({
     waterButtonText: { color: 'white', textAlign: 'center', fontWeight: 'bold' },
     saveButton: { backgroundColor: 'green', padding: 14, marginTop: 24, borderRadius: 8 },
     saveButtonText: { color: 'white', textAlign: 'center', fontWeight: 'bold' },
-    cancelButton: { backgroundColor: 'red', padding: 14, marginTop: 12, borderRadius: 8 },
+    cancelButton: { backgroundColor: '#9E9E9E', padding: 14, marginTop: 12, borderRadius: 8 },
     cancelButtonText: { color: 'white', textAlign: 'center', fontWeight: 'bold' },
     editPlantButton: {
         backgroundColor: '#FF9800',
