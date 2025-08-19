@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { getPlantsSync, Plant, initDB } from '../services/database';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemeContext } from '../context/ThemeContext';
 
 const HomeScreen: React.FC = () => {
     const [plants, setPlants] = useState<Plant[]>([]);
-    const [darkMode, setDarkMode] = useState(false);
     const isFocused = useIsFocused();
     const navigation = useNavigation();
-
-    useEffect(() => {
-        const loadSettings = async () => {
-            const dark = await AsyncStorage.getItem('darkMode');
-            if (dark !== null) setDarkMode(dark === 'true');
-        };
-        loadSettings();
-    }, []);
+    const { darkMode } = useContext(ThemeContext);
 
     useEffect(() => {
         initDB();

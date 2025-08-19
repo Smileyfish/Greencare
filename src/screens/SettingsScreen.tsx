@@ -1,34 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Switch, StyleSheet, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemeContext } from '../context/ThemeContext';
 
 const SettingsScreen: React.FC = () => {
-    const [darkMode, setDarkMode] = useState(false);
-    const [notifications, setNotifications] = useState(true);
+    const { darkMode, toggleDarkMode } = useContext(ThemeContext);
+    const [notifications, setNotifications] = React.useState(true); // Keep notifications local for now
 
-    // Load settings from AsyncStorage on mount
-    useEffect(() => {
-        const loadSettings = async () => {
+    // If you want notifications to be global, move to context as well
+    // For now, keep AsyncStorage for notifications only
+    React.useEffect(() => {
+        const loadNotifications = async () => {
             try {
-                const dark = await AsyncStorage.getItem('darkMode');
                 const notif = await AsyncStorage.getItem('notifications');
-                if (dark !== null) setDarkMode(dark === 'true');
                 if (notif !== null) setNotifications(notif === 'true');
             } catch (error) {
-                console.log('Error loading settings', error);
+                console.log('Error loading notifications', error);
             }
         };
-        loadSettings();
+        loadNotifications();
     }, []);
 
-    // Generic toggle function
-    const toggleSetting = async (key: string, value: boolean, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-        const newValue = !value;
-        setter(newValue);
+    const toggleNotifications = async () => {
+        const newValue = !notifications;
+        setNotifications(newValue);
         try {
-            await AsyncStorage.setItem(key, newValue.toString());
+            await AsyncStorage.setItem('notifications', newValue.toString());
         } catch (error) {
-            console.log(`Error saving ${key}`, error);
+            console.log('Error saving notifications', error);
         }
     };
 
@@ -36,12 +35,12 @@ const SettingsScreen: React.FC = () => {
         <ScrollView style={[styles.container, darkMode && styles.darkContainer]}>
             <View style={styles.settingRow}>
                 <Text style={[styles.label, darkMode && styles.darkText]}>Dark Mode</Text>
-                <Switch value={darkMode} onValueChange={() => toggleSetting('darkMode', darkMode, setDarkMode)} />
+                <Switch value={darkMode} onValueChange={toggleDarkMode} />
             </View>
 
             <View style={styles.settingRow}>
                 <Text style={[styles.label, darkMode && styles.darkText]}>Notifications</Text>
-                <Switch value={notifications} onValueChange={() => toggleSetting('notifications', notifications, setNotifications)} />
+                <Switch value={notifications} onValueChange={toggleNotifications} />
             </View>
 
             {/* Placeholder for future settings */}
