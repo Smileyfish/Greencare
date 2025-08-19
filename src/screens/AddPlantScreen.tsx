@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { addPlant } from '../services/database';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddPlantScreen: React.FC = () => {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [wateringInterval, setWateringInterval] = useState('');
     const [imageUri, setImageUri] = useState<string | null>(null);
+    const [darkMode, setDarkMode] = useState(false);
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const loadSettings = async () => {
+            const dark = await AsyncStorage.getItem('darkMode');
+            if (dark !== null) setDarkMode(dark === 'true');
+        };
+        loadSettings();
+    }, []);
 
     const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,10 +46,7 @@ const AddPlantScreen: React.FC = () => {
             return;
         }
 
-        const result = await ImagePicker.launchCameraAsync({
-            quality: 0.5,
-        });
-
+        const result = await ImagePicker.launchCameraAsync({ quality: 0.5 });
         if (!result.canceled) {
             setImageUri(result.assets[0].uri);
         }
@@ -67,19 +74,33 @@ const AddPlantScreen: React.FC = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>Name</Text>
-            <TextInput style={styles.input} value={name} onChangeText={setName} />
-
-            <Text style={styles.label}>Ort</Text>
-            <TextInput style={styles.input} value={location} onChangeText={setLocation} />
-
-            <Text style={styles.label}>Gießintervall (Tage)</Text>
+        <View style={[styles.container, darkMode && styles.darkContainer]}>
+            <Text style={[styles.label, darkMode && styles.darkText]}>Name</Text>
             <TextInput
-                style={styles.input}
+                style={[styles.input, darkMode && styles.darkInput]}
+                value={name}
+                onChangeText={setName}
+                placeholder="Name"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+            />
+
+            <Text style={[styles.label, darkMode && styles.darkText]}>Ort</Text>
+            <TextInput
+                style={[styles.input, darkMode && styles.darkInput]}
+                value={location}
+                onChangeText={setLocation}
+                placeholder="Ort"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+            />
+
+            <Text style={[styles.label, darkMode && styles.darkText]}>Gießintervall (Tage)</Text>
+            <TextInput
+                style={[styles.input, darkMode && styles.darkInput]}
                 value={wateringInterval}
                 onChangeText={setWateringInterval}
                 keyboardType="numeric"
+                placeholder="Tage"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
             />
 
             <View style={styles.buttonRow}>
@@ -93,7 +114,7 @@ const AddPlantScreen: React.FC = () => {
 
             {imageUri && <Image source={{ uri: imageUri }} style={styles.previewImage} />}
 
-            <TouchableOpacity style={styles.saveButton} onPress={savePlant}>
+            <TouchableOpacity style={[styles.saveButton, darkMode && styles.darkSaveButton]} onPress={savePlant}>
                 <Text style={styles.saveButtonText}>Pflanze speichern</Text>
             </TouchableOpacity>
         </View>
@@ -102,13 +123,22 @@ const AddPlantScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 16, backgroundColor: '#fff' },
-    label: { fontSize: 16, fontWeight: 'bold', marginTop: 12 },
+    darkContainer: { backgroundColor: '#121212' },
+    label: { fontSize: 16, fontWeight: 'bold', marginTop: 12, color: '#000' },
+    darkText: { color: '#fff' },
     input: {
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 6,
         padding: 8,
         marginTop: 4,
+        color: '#000',
+        backgroundColor: '#fff',
+    },
+    darkInput: {
+        borderColor: '#555',
+        color: '#fff',
+        backgroundColor: '#1E1E1E',
     },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 },
     photoButton: {
@@ -126,6 +156,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 24,
     },
+    darkSaveButton: { backgroundColor: '#388E3C' },
     saveButtonText: { color: 'white', textAlign: 'center', fontSize: 16, fontWeight: 'bold' },
 });
 

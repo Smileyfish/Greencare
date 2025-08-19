@@ -1,45 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
+import { View, Text, Switch, StyleSheet, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen: React.FC = () => {
     const [darkMode, setDarkMode] = useState(false);
     const [notifications, setNotifications] = useState(true);
 
+    // Load settings from AsyncStorage on mount
     useEffect(() => {
         const loadSettings = async () => {
-            const dark = await AsyncStorage.getItem('darkMode');
-            const notif = await AsyncStorage.getItem('notifications');
-            if (dark !== null) setDarkMode(dark === 'true');
-            if (notif !== null) setNotifications(notif === 'true');
+            try {
+                const dark = await AsyncStorage.getItem('darkMode');
+                const notif = await AsyncStorage.getItem('notifications');
+                if (dark !== null) setDarkMode(dark === 'true');
+                if (notif !== null) setNotifications(notif === 'true');
+            } catch (error) {
+                console.log('Error loading settings', error);
+            }
         };
         loadSettings();
     }, []);
 
-    const toggleDarkMode = async () => {
-        const newValue = !darkMode;
-        setDarkMode(newValue);
-        await AsyncStorage.setItem('darkMode', newValue.toString());
-    };
-
-    const toggleNotifications = async () => {
-        const newValue = !notifications;
-        setNotifications(newValue);
-        await AsyncStorage.setItem('notifications', newValue.toString());
+    // Generic toggle function
+    const toggleSetting = async (key: string, value: boolean, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+        const newValue = !value;
+        setter(newValue);
+        try {
+            await AsyncStorage.setItem(key, newValue.toString());
+        } catch (error) {
+            console.log(`Error saving ${key}`, error);
+        }
     };
 
     return (
-        <View style={[styles.container, darkMode && styles.darkContainer]}>
+        <ScrollView style={[styles.container, darkMode && styles.darkContainer]}>
             <View style={styles.settingRow}>
                 <Text style={[styles.label, darkMode && styles.darkText]}>Dark Mode</Text>
-                <Switch value={darkMode} onValueChange={toggleDarkMode} />
+                <Switch value={darkMode} onValueChange={() => toggleSetting('darkMode', darkMode, setDarkMode)} />
             </View>
 
             <View style={styles.settingRow}>
                 <Text style={[styles.label, darkMode && styles.darkText]}>Notifications</Text>
-                <Switch value={notifications} onValueChange={toggleNotifications} />
+                <Switch value={notifications} onValueChange={() => toggleSetting('notifications', notifications, setNotifications)} />
             </View>
-        </View>
+
+            {/* Placeholder for future settings */}
+            {/* Example: <View style={styles.settingRow}> ... </View> */}
+        </ScrollView>
     );
 };
 

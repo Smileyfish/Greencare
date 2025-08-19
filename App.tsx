@@ -3,6 +3,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { initDB } from './src/services/database';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import { ThemeProvider } from './src/context/ThemeContext';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -36,5 +37,9 @@ export default function App() {
     requestPermissions();
   }, []);
 
-  return <AppNavigator />;
+  return (
+    <ThemeProvider>
+      <AppNavigator />
+    </ThemeProvider>
+  );
 }
