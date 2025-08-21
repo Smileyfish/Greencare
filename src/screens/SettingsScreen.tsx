@@ -5,10 +5,8 @@ import { ThemeContext } from '../context/ThemeContext';
 
 const SettingsScreen: React.FC = () => {
     const { darkMode, toggleDarkMode } = useContext(ThemeContext);
-    const [notifications, setNotifications] = React.useState(true); // Keep notifications local for now
+    const [notifications, setNotifications] = React.useState(true);
 
-    // If you want notifications to be global, move to context as well
-    // For now, keep AsyncStorage for notifications only
     React.useEffect(() => {
         const loadNotifications = async () => {
             try {
