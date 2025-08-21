@@ -50,6 +50,20 @@ export const getPlantsSync = (): Plant[] => {
     }
 };
 
+export const getPlantsSortedByWateringNeed = (): Plant[] => {
+    const plants = getPlantsSync();
+    const now = new Date();
+    const withWateringInfo = plants.map(plant => {
+        const lastWateredDate = plant.lastWatered ? new Date(plant.lastWatered) : new Date(0);
+        const nextWateringDate = new Date(lastWateredDate);
+        nextWateringDate.setDate(lastWateredDate.getDate() + plant.wateringInterval);
+        const daysUntilWatering = Math.ceil((nextWateringDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        return { ...plant, daysUntilWatering };
+    });
+    withWateringInfo.sort((a, b) => a.daysUntilWatering - b.daysUntilWatering);
+    return withWateringInfo;
+};
+
 export const addPlant = (
     name: string,
     location: string,

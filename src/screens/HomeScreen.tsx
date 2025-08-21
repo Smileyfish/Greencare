@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { getPlantsSync, Plant, initDB } from '../services/database';
+import { Plant, initDB, getPlantsSortedByWateringNeed } from '../services/database';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeContext } from '../context/ThemeContext';
 
@@ -14,7 +14,7 @@ const HomeScreen: React.FC = () => {
     useEffect(() => {
         initDB();
         if (isFocused) {
-            const plantsList: Plant[] = getPlantsSync();
+            const plantsList: Plant[] = getPlantsSortedByWateringNeed();
             setPlants(plantsList);
         }
     }, [isFocused]);
