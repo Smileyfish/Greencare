@@ -3,6 +3,15 @@ import { render } from "@testing-library/react-native";
 import AddPlantScreen from "../src/screens/AddPlantScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
+// Mock expo-sqlite
+jest.mock("expo-sqlite", () => ({
+    openDatabaseSync: jest.fn(() => ({
+        execSync: jest.fn(),
+        runSync: jest.fn(),
+        getAllSync: jest.fn(() => []),
+    })),
+}));
+
 // Mock AsyncStorage & Navigation
 jest.mock("@react-native-async-storage/async-storage", () => ({
     getItem: jest.fn(() => Promise.resolve(null)),

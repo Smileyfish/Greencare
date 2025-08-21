@@ -38,14 +38,5 @@
     "ts-jest": "^29.4.1",
     "typescript": "~5.8.3"
   },
-  "jest": {
-    "preset": "jest-expo",
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ]
-  },
   "private": true
 }

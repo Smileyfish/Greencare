@@ -1,5 +1,4 @@
 import { addPlant, getPlantById } from "../src/services/database";
-import { describe, expect, it, jest } from "@jest/globals";
 
 // Mock SQLite, damit keine echte DB genutzt wird
 jest.mock("expo-sqlite", () => ({
