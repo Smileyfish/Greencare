@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     header: { marginBottom: 16 },
     title: { fontSize: 22, fontWeight: 'bold', textAlign: 'center' },
     darkText: { color: '#fff' },
-    previewImage: { width: '100%', height: 200, borderRadius: 8 },
+    previewImage: { width: '100%', height: 300, borderRadius: 8 },
     photoButton: {
         backgroundColor: '#2196F3',
         padding: 10,

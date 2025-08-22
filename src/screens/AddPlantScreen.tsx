@@ -112,7 +112,7 @@ const AddPlantScreen: React.FC = () => {
                 </TouchableOpacity>
             </View>
 
-            {imageUri && <Image source={{ uri: imageUri }} style={styles.previewImage} />}
+            {imageUri && <Image source={{ uri: imageUri }} style={styles.previewImage} resizeMode="cover" />}
 
             <TouchableOpacity style={[styles.saveButton, darkMode && styles.darkSaveButton]} onPress={savePlant}>
                 <Text style={styles.saveButtonText}>Pflanze speichern</Text>
@@ -149,7 +149,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
     },
     photoButtonText: { color: 'white', textAlign: 'center' },
-    previewImage: { width: 100, height: 100, marginTop: 16, borderRadius: 8 },
+    previewImage: {
+        width: '100%',
+        height: 250,
+        marginTop: 16,
+        borderRadius: 8,
+        alignSelf: 'center',
+    },
     saveButton: {
         backgroundColor: 'green',
         padding: 14,
