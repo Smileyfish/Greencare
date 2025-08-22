@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot: AddPlantScreen rendert korrekt 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+        "flex": 1,
+        "padding": 16,
+      },
+      false,
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "marginTop": 12,
+        },
+        false,
+      ]
+    }
+  >
+    Name
+  </Text>
+  <TextInput
+    onChangeText={[Function]}
+    placeholder="Name"
+    placeholderTextColor="#999"
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#ccc",
+          "borderRadius": 6,
+          "borderWidth": 1,
+          "color": "#000",
+          "marginTop": 4,
+          "padding": 8,
+        },
+        false,
+      ]
+    }
+    value=""
+  />
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "marginTop": 12,
+        },
+        false,
+      ]
+    }
+  >
+    Ort
+  </Text>
+  <TextInput
+    onChangeText={[Function]}
+    placeholder="Ort"
+    placeholderTextColor="#999"
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#ccc",
+          "borderRadius": 6,
+          "borderWidth": 1,
+          "color": "#000",
+          "marginTop": 4,
+          "padding": 8,
+        },
+        false,
+      ]
+    }
+    value=""
+  />
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "marginTop": 12,
+        },
+        false,
+      ]
+    }
+  >
+    Gießintervall (Tage)
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    onChangeText={[Function]}
+    placeholder="Tage"
+    placeholderTextColor="#999"
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#ccc",
+          "borderRadius": 6,
+          "borderWidth": 1,
+          "color": "#000",
+          "marginTop": 4,
+          "padding": 8,
+        },
+        false,
+      ]
+    }
+    value=""
+  />
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginTop": 16,
+      }
+    }
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "backgroundColor": "#4caf50",
+          "borderRadius": 6,
+          "flex": 1,
+          "marginHorizontal": 4,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "white",
+            "textAlign": "center",
+          }
+        }
+      >
+        Foto aufnehmen
+      </Text>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "backgroundColor": "#4caf50",
+          "borderRadius": 6,
+          "flex": 1,
+          "marginHorizontal": 4,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "white",
+            "textAlign": "center",
+          }
+        }
+      >
+        Galerie
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "green",
+        "borderRadius": 8,
+        "marginTop": 24,
+        "opacity": 1,
+        "padding": 14,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "white",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "textAlign": "center",
+        }
+      }
+    >
+      Pflanze speichern
+    </Text>
+  </View>
+</View>
+`;
